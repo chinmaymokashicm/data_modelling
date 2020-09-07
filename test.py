@@ -15,6 +15,10 @@ output = raw_data_obj.generate_delimiter(path)
 
 list_rows = raw_data_obj.generate_preview_table()
 
-for row in list_rows:
-    print("{}".format(raw_data_obj.get_delimiter()).join(row))
-    print("\n\n")
+# for row in list_rows:
+#     print("{}".format(raw_data_obj.get_delimiter()).join(row))
+#     print("\n\n")
+
+raw_data_obj.generate_dataset()
+
+print(raw_data_obj.get_dataset())

@@ -4,6 +4,7 @@ Load, analyse and process raw data
 import csv
 import yaml
 import os
+import pandas as pd
 
 from exceptions import exceptions
 
@@ -15,6 +16,7 @@ class Raw:
             self.dict_defaults = yaml.load(file_yaml, Loader=yaml.FullLoader)
         self.delimiter = self.dict_defaults["delimiter"]
         self.number_of_rows_in_preview = self.dict_defaults["number_of_rows_in_preview"]
+        self.dataset = None
         return
     
     def set_path_file(self, path_file):
@@ -39,6 +41,20 @@ class Raw:
     
     def get_delimiter(self):
         return(self.delimiter)
+
+    def set_dataset(self, dataset):
+        self.dataset = dataset
+        return
+    
+    def get_dataset(self):
+        return(self.dataset)
+
+    def get_dataset_column_dtype(self, dataset_column_name):
+        return(self.get_dataset()[dataset_column_name].dtype)
+    
+    def set_dataset_column_dtype(self, dataset_column_name, dataset_column_dtype):
+        self.set_dataset(self.get_dataset().convert_dtypes())
+        return
 
     def generate_delimiter(self, path_file=None):
         """
@@ -97,3 +113,26 @@ class Raw:
                     row.append(cell)
             list_rows.append(row)
         return(list_rows)
+
+    def generate_dataset(self, path_file=None):
+        if(path_file is None):
+            path_file = self.get_path_file()
+        if(self.get_path_file() is None):
+            raise exceptions.CustomError("Cannot find file path.")
+        
+        try:
+            self.set_dataset(pd.read_csv(self.get_path_file(), sep=self.get_delimiter(), index_col=False))
+        except Exception as e:
+            print(e)
+        return
+
+    def change_columns_names_dataset(self, list_columns, dataset=None):
+        if(dataset is None):
+            dataset = self.get_dataset()
+        if(self.get_dataset() is None):
+            raise exceptions.CustomError("Cannot find dataset.")
+
+        dataset.columns = list_columns
+        self.set_dataset(dataset)
+
+        return
