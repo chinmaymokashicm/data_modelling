@@ -17,6 +17,7 @@ class Raw:
         self.delimiter = self.dict_defaults["delimiter"]
         self.number_of_rows_in_preview = self.dict_defaults["number_of_rows_in_preview"]
         self.dataset = None
+        self.path_file = None
         return
     
     def set_path_file(self, path_file):
@@ -91,8 +92,8 @@ class Raw:
             raise exceptions.CustomError("Error in default values. Cannot find default number of rows in preview")
         if(path_file is None):
             path_file = self.get_path_file()
-        if(self.get_path_file() is None):
-            raise exceptions.CustomError("Cannot find file path.")
+            if(self.get_path_file() is None):
+                raise exceptions.CustomError("Cannot find file path.")
 
         self.set_path_file(path_file)
 
