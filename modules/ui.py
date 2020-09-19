@@ -5,17 +5,32 @@ import sys
 # import pandas as pd
 
 
-class UI:
+class UI_Properties:
     def __init__(self):
+        self.width_window = 900
+        self.height_window = 400
         self.path_file = None
+        self.raw_widgets_number_of_rows = 4
+        self.raw_widgets_number_of_columns = 3
+        self.processed_widgets_number_of_rows = 4
+        self.processed_widgets_number_of_columns = 3
         self.number_of_rows_in_preview = 20
         self.number_of_rows_in_preview_default = self.number_of_rows_in_preview
+        self.bool_use_preview = None
         # self.default_dir = "."
         # self.default_dir = "/home/chinmay/Documents/covid-19-data/"
         self.default_dir = "/home/chinmay/Documents/indian_liver_patients/"
+        self.data_delimiter = r","
         self.df_raw = None
         self.df_current = None
+        self.df_filtered = None
+        self.df_grouped = None
         # self.df_new = None
+        self.dict_menubutton_filter_columns = None
+        self.dict_menubutton_use_options = None
+        self.dict_menubutton_groupby_columns = None
+        self.dict_menubutton_groupby_agg = {}
+        self.dict_menubutton_names_groupby_agg = {}
         self.list_menu_groupby = ["..", "A", "B"]
         self.dict_menubutton_values = {}
         self.list_non_groupby_columns = []
@@ -88,7 +103,7 @@ class UI:
                 "exportselection": "" ,
                 "fg": "" ,
                 "highlightcolor": "" ,
-                "justify": "" ,
+                "justify": "center" ,
                 "relief": "" ,
                 "selectbackground": "" ,
                 "selectborderwidth": "" ,
@@ -225,73 +240,6 @@ class UI:
         }
         
         return
-
-    def set_path_file(self, path_file):
-        self.path_file = path_file
-        return
-
-    def get_path_file(self):
-        return(self.path_file)
-
-    def set_number_of_rows_in_preview(self, number_of_rows_in_preview):
-        self.number_of_rows_in_preview = number_of_rows_in_preview
-
-    def get_number_of_rows_in_preview(self):
-        return(self.number_of_rows_in_preview)
-
-    def set_number_of_rows_in_preview_default(self, number_of_rows_in_preview_default):
-        self.number_of_rows_in_preview_default = number_of_rows_in_preview_default
-
-    def get_number_of_rows_in_preview_default(self):
-        return(self.number_of_rows_in_preview_default)
-
-    def set_dict_aggregation_frame_components(self, dict_aggregation_frame_components):
-        self.dict_aggregation_frame_components = dict_aggregation_frame_components
-
-    def get_dict_aggregation_frame_components(self):
-        return(self.dict_aggregation_frame_components)
-
-    def set_default_dir(self, default_dir):
-        self.default_dir = default_dir
-        return
-
-    def get_default_dir(self):
-        return(self.default_dir)
-
-    def set_df_raw(self, df):
-        self.df_raw = df
-        return
-
-    def get_df_raw(self):
-        return(self.df_raw)
-
-    def set_df_current(self, df):
-        self.df_current = df
-        return
-
-    def get_df_current(self):
-        return(self.df_current)
-
-    def set_dict_menubutton_values(self, dict_menubutton_values):
-        self.dict_menubutton_values = dict_menubutton_values
-        return
-
-    def get_dict_menubutton_values(self):
-        return(self.dict_menubutton_values)
-
-
-    def get_list_group_agg(self):
-        return(self.list_group_agg)
-
-    def set_list_non_groupby_columns(self, list_non_groupby_columns):
-        self.list_non_groupby_columns = list_non_groupby_columns
-        return
-
-    def get_list_non_groupby_columns(self):
-        return(self.list_non_groupby_columns)
-
-
-
     # def set_df_new(self, df):
     #     self.df_new = df
     #     return
@@ -389,7 +337,7 @@ class UI:
             try:
                 tk_widget[key] = value
             except Exception as e:
-                # print(e)
+                print(e)
                 pass
             
         return(tk_widget)
