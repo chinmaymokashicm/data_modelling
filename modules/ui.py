@@ -27,7 +27,8 @@ class UI_Properties:
         self.df_grouped = None
         # self.df_new = None
         self.dict_menubutton_filter_columns = None
-        self.dict_menubutton_use_options = None
+        self.dict_menubutton_raw_use_options = None
+        self.dict_menubutton_processed_use_options = None
         self.dict_menubutton_groupby_columns = None
         self.dict_menubutton_groupby_agg = {}
         self.dict_menubutton_names_groupby_agg = {}
@@ -35,9 +36,19 @@ class UI_Properties:
         self.dict_menubutton_values = {}
         self.list_non_groupby_columns = []
         self.list_group_agg = ["sum", "mean", "count", "min", "max"]
+        self.list_optionmenu_actions_for_na = [
+            "drop", "do nothing", 
+            "mean", "median", 
+            "0", "1", 
+            "pad", "bfill"
+            # "interpolate", "interpolate-forward", "interpolate-backward", "interpolate-values", "interpolate-time",
+            # "interpolate-quadratic", "interpolate-pchip", "interpolate-akima", "interpolate-barycentric", "interpolate-spline", 
+            # "interpolate-polynomial"
+        ]
         self.dict_aggregation_frame_components = {key: None for key in self.list_group_agg}
         self.dict_agg_command_pre = {key: None for key in self.list_group_agg}
         self.table_height = 300
+        # self.dict
         self.window_dimensions = {
             "x": 1600,
             "y": 900
@@ -234,6 +245,33 @@ class UI_Properties:
                 "text": "",
                 "textvariable": "",
                 "underline": "",
+                "width": "",
+                "wraplength": ""
+            },
+            "optionmenu": {
+                "activebackground": "",
+                "activeforeground": "",
+                "anchor": "",	
+                "bg": "",
+                "bitmap": "",	
+                "bd": "",
+                "cursor": "",
+                "direction": "",
+                "disabledforeground": "",	
+                "fg": "",
+                "height": "",
+                "highlightcolor": "",
+                "image": "",
+                "justify": "",
+                "padx": "",
+                "pady": "",
+                "relief": "",
+                "state": "disabled",
+                "text": "",
+                "textvariable": "",
+                "underline": "",
+                "variable": "",
+                "value": "",
                 "width": "",
                 "wraplength": ""
             }
