@@ -69,7 +69,17 @@ class Properties:
             r"datetime | %m/%d/%Y | day",
             r"datetime | %m/%d/%Y | week",
             r"datetime | %m/%d/%Y | date",
-            r"datetime | %m/%d/%Y | time"
+            r"datetime | %m/%d/%Y | time",
+            r"datetime | %m/%d/%Y | year",
+            r"datetime | %d-%m-%Y | ns",
+            r"datetime | %d-%m-%Y | s",
+            r"datetime | %d-%m-%Y | dayofweek",
+            r"datetime | %d-%m-%Y | day",
+            r"datetime | %d-%m-%Y | week",
+            r"datetime | %d-%m-%Y | date",
+            r"datetime | %d-%m-%Y | time",
+            r"datetime | %d-%m-%Y | year"
+
         ]
         
         self.widget_properties = {
