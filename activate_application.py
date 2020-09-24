@@ -9,6 +9,7 @@ import os
 from pandastable import Table
 import json
 import pandas as pd
+import numpy as np
 from pprint import pformat
 
 """
@@ -446,6 +447,7 @@ class Activate(Application):
                 if(agg != "custom"):
                     if(agg not in self.properties.dict_groupby_aggregations[column_name]):
                         self.properties.dict_groupby_aggregations[column_name].append(agg)
+                
                 str_dict = json.dumps(self.properties.dict_groupby_aggregations, indent=2)
                 self.label_show_aggregation.configure(text=str_dict, justify=tk.LEFT)
             self.button_add_agg = button.Button(
@@ -629,7 +631,7 @@ class Activate(Application):
                         _precision = new_dtype.split("|")[2].split(" ")[1]
                         self.properties.df["processed"][column_name] = pd.to_datetime(self.properties.df["processed"][column_name])
                         self.properties.df["processed"][column_name] = pd.to_datetime(self.properties.df["processed"][column_name], format=_format)
-                        if(_precision not in ["date", "day", "week", "dayofweek", "time"]):
+                        if(_precision not in ["date", "day", "week", "dayofweek", "time", "year"]):
                             self.properties.df["processed"][column_name] = self.properties.df["processed"][column_name].astype("datetime64[{}]".format(_precision))
                         else:
                             if(_precision == "date"):
@@ -642,6 +644,8 @@ class Activate(Application):
                                 self.properties.df["processed"][column_name] = self.properties.df["processed"][column_name].dt.dayofweek
                             elif(_precision == "time"):
                                 self.properties.df["processed"][column_name] = self.properties.df["processed"][column_name].dt.time
+                            elif(_precision == "year"):
+                                self.properties.df["processed"][column_name] = self.properties.df["processed"][column_name].dt.year
                             else:
                                 print("Datetime option N.A.")
 
@@ -748,6 +752,10 @@ class Activate(Application):
             ).widget
             # Button to close
             def close():
+                list_sort = self.properties.list_list_sort_and_order
+                if(len(list_sort[0]) > 0):
+                    self.properties.df["processed"] = self.properties.df["processed"].sort_values(list_sort[0], ascending=list_sort[1])
+                self.view_table_trigger()
                 self.window_sort.destroy()
                 self.window_sort.update()
             self.button_close_sort = button.Button(
@@ -849,7 +857,7 @@ class Activate(Application):
             )
             def copy_column():
                 column_name = self.stringvar_combobox_copy_column_transform.get()
-                self.text_transform_function.insert(tk.INSERT, 'df["{}"]'.format(column_name))
+                self.text_transform_function.insert(tk.INSERT, 'row["{}"]'.format(column_name))
             self.button_copy_column_name_transform = button.Button(
                 self.frame_transform_main,
                 text="Copy column",
@@ -882,7 +890,7 @@ class Activate(Application):
                 try:
                     # exec(string_command, {}, {"df": df})
                     namespace = {}
-                    exec(string_command, {"df": df}, namespace)
+                    exec(string_command, {"df": df, "np": np, "pd": pd}, namespace)
                     self.properties.df["processed"][self.combobox_column_select_transform.get()] = namespace["series"]
                     close_window()
                     self.view_table_trigger()
@@ -902,7 +910,7 @@ class Activate(Application):
                     string_transform = self.text_transform_function.get("1.0", tk.END)
                     df = self.properties.df["processed"]
                     string_command = "{}".format(string_transform)
-                    exec(string_command, {"df": df})
+                    exec(string_command, {"df": df, "np": np, "pd": pd})
                     tk.messagebox.showinfo(title="Success", message="Transformation string is valid!")
                 except Exception as e:
                     tk.messagebox.showerror(title="Error transforming data", message=e)
