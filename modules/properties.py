@@ -42,7 +42,7 @@ class Properties:
         self.number_of_rows_widgets = 3
         self.number_of_columns_widgets = 5
 
-        self.list_tab_names = ["raw", "processed", "describe", "plot", "model"]
+        self.list_tab_names = ["raw", "processed", "describe", "model", "plot"]
 
         self.list_list_sort_and_order = [[], []]
 

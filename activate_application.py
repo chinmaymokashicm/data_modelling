@@ -857,7 +857,7 @@ class Activate(Application):
             )
             def copy_column():
                 column_name = self.stringvar_combobox_copy_column_transform.get()
-                self.text_transform_function.insert(tk.INSERT, 'row["{}"]'.format(column_name))
+                self.text_transform_function.insert(tk.INSERT, '["{}"]'.format(column_name))
             self.button_copy_column_name_transform = button.Button(
                 self.frame_transform_main,
                 text="Copy column",
